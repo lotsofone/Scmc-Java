@@ -1,40 +1,29 @@
 /**
- * Auto-generated: 2018-07-04 23:7:38
+ * Auto-generated: 2018-07-05 9:38:7
  *
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BuildingBlock {
-    public BuildingBlock(int[] bounds, String shapeId, String color, int[] pos, int xaxis, int zaxis){
-        this.bounds = new Bounds();
-        this.bounds.setX(bounds[0]);
-        this.bounds.setY(bounds[1]);
-        this.bounds.setZ(bounds[2]);
-        this.shapeId = shapeId;
-        this.color = color;
-        this.pos = new Pos();
-        this.pos.setX(pos[0]);
-        this.pos.setY(pos[1]);
-        this.pos.setZ(pos[2]);
-        this.xaxis = xaxis;
-        this.zaxis = zaxis;
-    }
-    public BuildingBlock(String color, int[] pos){
-        this(new int[]{1,1,1}, "a6c6ce30-dd47-4587-b475-085d55c6a3b4", color, pos, 1, 3);
-    }
-    private Bounds bounds;
+public class ItemBlock {
+
     private String color;
     private Pos pos;
     private String shapeId;
     private int xaxis;
     private int zaxis;
-    public void setBounds(Bounds bounds) {
-        this.bounds = bounds;
+    public ItemBlock(String color, int[] pos, String shapeId, int xaxis, int zaxis){
+        this.color = color;
+        this.pos = new Pos();
+        this.pos.setX(pos[0]);
+        this.pos.setY(pos[1]);
+        this.pos.setZ(pos[2]);
+        this.shapeId = shapeId;
+        this.xaxis = xaxis;
+        this.zaxis = zaxis;
     }
-    public Bounds getBounds() {
-        return bounds;
+    public ItemBlock(int[] pos, String shapeId){
+        this("f3871c", pos, shapeId, 1, 1);
     }
-
     public void setColor(String color) {
         this.color = color;
     }
@@ -69,5 +58,4 @@ public class BuildingBlock {
     public int getZaxis() {
         return zaxis;
     }
-
 }

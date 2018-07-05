@@ -1,5 +1,7 @@
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.*;
 
@@ -8,17 +10,21 @@ import javax.imageio.ImageIO;
 public class Main {
     public static void main(String args[]){
         /*
-        File file = new File("blueprint.json");
-        String read = txt2String(file);
-        JsonParser parser = new JsonParser();
-        JsonObject root = parser.parse(read).getAsJsonObject();
-        JsonArray bodies = root.getAsJsonArray("bodies");
-        System.out.println(bodies.size());
-        JsonObject body = bodies.get(0).getAsJsonObject();
-        JsonArray childs = body.getAsJsonArray("childs");
-        System.out.println(childs.size());/**/
+        GateBlock b = new GateBlock(new int[]{3,5,6});
+        b.getController().setControllers(new ArrayList<>());
+        b.getController().getControllers().add(new GateBlock.Controller.Link());
 
-        String result = getImagePixel(new File("inputimage.png"));
+        GsonBuilder gb = new GsonBuilder().serializeNulls();
+        Gson gson = gb.create();
+        String result = gson.toJson(b);
+        System.out.println(result);
+        */
+        //pixel art
+        //String result = getImagePixel(new File("inputimage.png"));
+        //ram
+        String result = generateRAM(new int[]{}, 8);
+
+        System.out.println(result);
         string2Txt(new File("blueprint.json"), result);
 
 
@@ -46,6 +52,25 @@ public class Main {
         }catch(Exception e){
             return -1;
         }
+    }
+    /**
+     * 生成内存条
+     */
+    public static String generateRAM(int[] content, int ByteSize){
+        LogicModule d = LogicModule.createDLatch(true);
+        List<JsonObject> childObjects = d.toChildObjects();
+
+        JsonObject root = new JsonObject();
+        root.add("bodies", new JsonArray());
+        JsonArray bodies = root.getAsJsonArray("bodies");
+        bodies.add(new JsonObject());
+        bodies.get(0).getAsJsonObject().add("childs", new JsonArray());
+        JsonArray childs = bodies.get(0).getAsJsonObject().getAsJsonArray("childs");
+        for(int i=0; i<childObjects.size(); i++){
+            childs.add(childObjects.get(i));
+        }
+        return new Gson().toJson(root);
+        //LogicModule mm = LogicModule.createRamByte(0x00);
     }
     /**
      * 读取一张图片的RGB值并生成blueprint字符串
