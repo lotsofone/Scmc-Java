@@ -2,7 +2,7 @@ import java.util.List;
 
 public class GateBlock extends ItemBlock{
     public GateBlock(int[] pos){
-        super("df7f00", pos, "9f0f56e8-2c31-4d83-996c-d00a9b296c3f", 1, 1);
+        super("df7f00", pos, "9f0f56e8-2c31-4d83-996c-d00a9b296c3f", 1, -2);
         this.controller = new Controller();
         this.controller.setActive(false);
         this.controller.setId(-1);

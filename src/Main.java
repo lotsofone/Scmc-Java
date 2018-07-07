@@ -9,26 +9,21 @@ import javax.imageio.ImageIO;
 
 public class Main {
     public static void main(String args[]){
-        /*
-        GateBlock b = new GateBlock(new int[]{3,5,6});
-        b.getController().setControllers(new ArrayList<>());
-        b.getController().getControllers().add(new GateBlock.Controller.Link());
-
-        GsonBuilder gb = new GsonBuilder().serializeNulls();
-        Gson gson = gb.create();
-        String result = gson.toJson(b);
-        System.out.println(result);
-        */
         //pixel art
         //String result = getImagePixel(new File("inputimage.png"));
         //ram
-        String result = generateRAM(new int[]{}, 8);
+        //String result = generateRAM(new int[]{0}, 8);
+        //register
+        //String result = generateRegister(16);
+        //my calculator
+        String result = fromLogicModule(LogicModule.siencetificCalculator());
 
-        System.out.println(result);
-        string2Txt(new File("blueprint.json"), result);
+        //System.out.println(result);
+        string2Txt(new File("C:\\Users\\Administrator\\AppData\\Roaming\\Axolot Games\\Scrap Mechanic\\User\\User_76561198219645729\\Blueprints\\my blueprint\\blueprint.json"), result);
 
 
     }
+
     public static String txt2String(File file){
         StringBuilder result = new StringBuilder();
         try{
@@ -54,10 +49,10 @@ public class Main {
         }
     }
     /**
-     * 生成内存条
+     * 生成加法器
      */
-    public static String generateRAM(int[] content, int ByteSize){
-        LogicModule d = LogicModule.createDLatch(true);
+    public static String generateFastAdder(int size){
+        LogicModule d = LogicModule.createControllableFastAdder(size);
         List<JsonObject> childObjects = d.toChildObjects();
 
         JsonObject root = new JsonObject();
@@ -70,7 +65,24 @@ public class Main {
             childs.add(childObjects.get(i));
         }
         return new Gson().toJson(root);
-        //LogicModule mm = LogicModule.createRamByte(0x00);
+    }
+    /**
+     * 生成一个寄存器
+     */
+    public static String generateRegister(int byteSize){
+        LogicModule d = LogicModule.createRegister(byteSize);
+        LogicModule.Gate CLK = d.addNewGate(0, new int[]{0, 1, 0});
+        d.gateLinkToInput(d, CLK, "CLK");
+        LogicModule.Gate C = d.addNewGate(0, new int[]{0, 2, 0});
+        d.gateLinkToInput(d, C, "C");
+        return fromLogicModule(d);
+    }
+    /**
+     * 生成内存条
+     */
+    public static String generateRAM(int[] content, int ByteSize){
+        LogicModule d = LogicModule.createRamByte(content[0], 8);
+        return fromLogicModule(d);
     }
     /**
      * 读取一张图片的RGB值并生成blueprint字符串
@@ -142,6 +154,24 @@ public class Main {
         //System.out.println(rgba[3]);
         //BufferedImage.
         return rgba;
+    }
+
+    /**
+     * 从LogicModule生成bluePrint的String
+     */
+    public static String fromLogicModule(LogicModule logicModule){
+        List<JsonObject> childObjects = logicModule.toChildObjects();
+
+        JsonObject root = new JsonObject();
+        root.add("bodies", new JsonArray());
+        JsonArray bodies = root.getAsJsonArray("bodies");
+        bodies.add(new JsonObject());
+        bodies.get(0).getAsJsonObject().add("childs", new JsonArray());
+        JsonArray childs = bodies.get(0).getAsJsonObject().getAsJsonArray("childs");
+        for(int i=0; i<childObjects.size(); i++){
+            childs.add(childObjects.get(i));
+        }
+        return new Gson().toJson(root);
     }
 }
 /*

@@ -22,6 +22,9 @@ public class BuildingBlock {
     public BuildingBlock(String color, int[] pos){
         this(new int[]{1,1,1}, "a6c6ce30-dd47-4587-b475-085d55c6a3b4", color, pos, 1, 3);
     }
+    public BuildingBlock(int[] bounds, int[] pos){
+        this(bounds, "a6c6ce30-dd47-4587-b475-085d55c6a3b4", "ffffff", pos, 1, 3);
+    }
     private Bounds bounds;
     private String color;
     private Pos pos;

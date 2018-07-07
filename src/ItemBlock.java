@@ -22,7 +22,7 @@ public class ItemBlock {
         this.zaxis = zaxis;
     }
     public ItemBlock(int[] pos, String shapeId){
-        this("f3871c", pos, shapeId, 1, 1);
+        this("f3871c", pos, shapeId, 1, 3);
     }
     public void setColor(String color) {
         this.color = color;
